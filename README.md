@@ -1,54 +1,63 @@
-<h1 align="center">
-  Opera GX Widevine Updater
-</h1>
+# Opera GX Widevine Updater
 
-<p align="center">
-  <a href="https://github.com/KeyErrorFinn/opera-gx-widevine-updater/commits/main/"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/KeyErrorFinn/opera-gx-widevine-updater" /></a>
-  <a href="https://github.com/KeyErrorFinn/opera-gx-widevine-updater/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues-raw/KeyErrorFinn/opera-gx-widevine-updater" /></a>
-</p>
-<p align="center">
-  <a href="#"><img alt="Python" src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff" /></a>
-</p>
+A Windows utility that replaces Opera GX's bundled `WidevineCdm` directory with the copy stored in this repository, then restarts the browser.
 
-This project updates the `WidevineCdm` folder for Opera GX, ensuring that the latest Widevine version is available for use. The script automatically identifies the highest version folder of Opera GX and copies the `WidevineCdm` folder into it, then restarts the browser.
+> [!CAUTION]
+> This removes an existing Widevine directory inside the selected Opera version before copying the bundled replacement. Close sensitive browser sessions and back up the target directory first.
 
-## Table of Contents
-- [Table of Contents](#table-of-contents)
-- [About The Project](#about-the-project)
-  - [How the program works](#how-the-program-works)
-  - [Usage](#usage)
-  - [Requirements](#requirements)
-  - [TO-DO](#to-do)
+## How it works
 
-## About the Project
-This project allows you to automatically update the `WidevineCdm` folder for Opera GX by copying it into the folder corresponding to the highest installed version of Opera GX. It also ensures that Opera GX is restarted after the update.
+`main.py`:
 
-### How the program works:
-1) The script checks the installed versions of Opera GX in the `%localappdata%\Programs\Opera GX` directory.
-2) It identifies the highest version folder of Opera GX.
-3) It copies the `WidevineCdm` folder from the repository into the highest version folder.
-4) It closes any running instance of Opera GX.
-5) After a short delay, it reopens Opera GX with the updated `WidevineCdm` folder.
+1. Scans `%LOCALAPPDATA%\Programs\Opera GX` for version-number directories.
+2. Chooses the highest version.
+3. Deletes that version's existing `WidevineCdm` folder, if present.
+4. Copies the repository's `WidevineCdm` folder into the version directory.
+5. terminates processes named `opera.exe`.
+6. waits five seconds and launches Opera GX through `launcher.exe`.
 
-### Usage:
-1) Clone the repository or download the script files.
-2) Ensure that the `WidevineCdm` folder is already included in the repository, as this will be used for the update.
-3) Run the script to automatically update the `WidevineCdm` folder for the latest Opera GX version.
+This is a file-replacement helper, not an online updater: it installs the Widevine files already committed in this repository.
 
-```bash
-python opera-gx-widevine-updater.py
+## Requirements
+
+- Windows
+- Opera GX installed in its standard per-user location
+- Python 3
+- `psutil==6.0.0`
+
+```powershell
+python -m pip install -r requirements.txt
 ```
 
-4) Or use the batch file provided. 
+## Running
 
-### Requirements:
-To install the necessary dependencies, you can use the provided `requirements.txt` file. Run the following command to install all required libraries:
+Use the provided batch file:
 
-```bash
-pip install -r requirements.txt
+```text
+Fix Opera.bat
 ```
 
-### TO-DO:
-- [x] <s>Implement the folder scanning mechanism</s>
-- [x] <s>Automatically close and restart Opera GX</s>
-- [ ] Add error handling for specific Opera GX folder issues
+or run the actual Python entry point:
+
+```powershell
+python main.py
+```
+
+Keep `WidevineCdm/` beside `main.py`.
+
+## Verification and recovery
+
+After running, open `opera://components` and check the Widevine component status, then test protected media on a legitimate service.
+
+If Opera stops working:
+
+1. Close Opera GX.
+2. Restore the backed-up `WidevineCdm` directory, or reinstall/update Opera GX through its official installer.
+3. Restart the browser.
+
+## Limitations
+
+- Only the default Windows installation path is supported.
+- Version-folder comparison assumes numeric dot-separated folder names.
+- The bundled Widevine files can become outdated or incompatible.
+- The script has limited error handling and forcefully closes every `opera.exe` process.
