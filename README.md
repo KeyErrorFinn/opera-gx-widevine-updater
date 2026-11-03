@@ -1,6 +1,10 @@
 # Opera GX Widevine Updater
 
 <p align="center">
+  <img src="assets/logo.svg" alt="opera-gx-widevine-updater logo" width="480" />
+</p>
+
+<p align="center">
   <img alt="Windows" src="https://img.shields.io/badge/Windows-0078D4?logo=windows&logoColor=fff" />
   <img alt="Python" src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=fff" />
   <img alt="Opera GX" src="https://img.shields.io/badge/Opera%20GX-EE2950?logo=opera&logoColor=fff" />
