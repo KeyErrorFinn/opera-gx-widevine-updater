@@ -1,7 +1,7 @@
 # Opera GX Widevine Updater
 
 <p align="center">
-  <img src="assets/logo.png" alt="opera-gx-widevine-updater logo" width="480" />
+  <img src="assets/logo.png" alt="opera-gx-widevine-updater logo" width="180" />
 </p>
 
 <p align="center">
